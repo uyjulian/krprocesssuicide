@@ -9,8 +9,13 @@
 
 #include "ncbind/ncbind.hpp"
 
-static tjs_int exit_override(tjs_int exitcode)
+static tjs_int exit_override(tTJSVariant *result, tjs_int numparams, tTJSVariant **param, iTJSDispatch2 *objthis)
 {
+	UINT exitcode = 0;
+	if (numparams >= 1)
+	{
+		exitcode = (UINT)param[0]->AsInteger();
+	}
 	return !!::TerminateProcess(GetCurrentProcess(), (UINT)exitcode);
 }
 
